@@ -1,5 +1,5 @@
-import React from "react";
-import Products from "../products";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Button,
   Col,
@@ -13,12 +13,19 @@ import { Rating } from "../components";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const product = Products.find((p) => p._id === id);
-  console.log("product params id--", product);
+  const [product, setproduct] = useState([]);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`http://localhost:8080/products/${id}`);
+      setproduct(data);
+    };
+    fetchProduct();
+  }, []);
+
   return (
     <div>
-      <Link to="/">
-        <i class="fas fa-angle-left" />
+      <Link to="/" className="btn btn-light ">
+        <i class="fas fa-angle-left me-2" />
         Go Back
       </Link>
       <Row>
